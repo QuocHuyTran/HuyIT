@@ -1,0 +1,265 @@
+using System;
+using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace GraphicInC
+{
+    public partial class Form1 : Form
+    {
+        int Port = 0;
+        int ToaDoX, ToaDoY;
+        int PenToaDoX=-1, PenToaDoY=-1;
+        int PenToaDoX2 = -1, PenToaDoY2 = -1;
+        Boolean isMove;
+        ArrayList LinePointArray = new ArrayList();
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_MouseHover(object sender, EventArgs e)
+        {
+            Label_Home.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void Label_Home_MouseLeave(object sender, EventArgs e)
+        {
+            Label_Home.BorderStyle = BorderStyle.None;
+        }
+
+        private void Label_View_MouseHover(object sender, EventArgs e)
+        {
+            Label_View.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void Label_View_MouseLeave(object sender, EventArgs e)
+        {
+            Label_View.BorderStyle = BorderStyle.None;
+        }
+
+        private void pictureBox_Cut_MouseHover(object sender, EventArgs e)
+        {
+            pictureBox_Cut.BackColor = Color.LightSteelBlue;
+            pictureBox_Cut.BorderStyle = BorderStyle.FixedSingle;
+            comboBox_SelectCut.ForeColor = Color.LightSteelBlue;
+        }
+
+        private void pictureBox_Cut_MouseLeave(object sender, EventArgs e)
+        {
+            pictureBox_Cut.BackColor = Color.PowderBlue;
+            pictureBox_Cut.BorderStyle = BorderStyle.None;
+        }
+
+        private void comboBox_SelectCut_MouseHover(object sender, EventArgs e)
+        {
+            pictureBox_Cut.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void comboBox_SelectCut_MouseLeave(object sender, EventArgs e)
+        {
+            pictureBox_Cut.BackColor = Color.PowderBlue;
+            pictureBox_Cut.BorderStyle = BorderStyle.None;
+        }
+
+        private void pictureBox_Pencil_MouseHover(object sender, EventArgs e)
+        {
+            pictureBox_Pencil.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void pictureBox_Pencil_MouseLeave(object sender, EventArgs e)
+        {
+            pictureBox_Pencil.BorderStyle = BorderStyle.None;
+        }
+
+        private void pictureBox_Son_MouseHover(object sender, EventArgs e)
+        {
+            pictureBox_Son.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void pictureBox_Son_MouseLeave(object sender, EventArgs e)
+        {
+            pictureBox_Son.BorderStyle = BorderStyle.None;
+        }
+
+        private void pictureBox_Word_MouseHover(object sender, EventArgs e)
+        {
+            pictureBox_Word.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void pictureBox_Word_MouseLeave(object sender, EventArgs e)
+        {
+            pictureBox_Word.BorderStyle = BorderStyle.None;
+        }
+
+        private void pictureBox_Eraser_MouseHover(object sender, EventArgs e)
+        {
+            pictureBox_Eraser.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void pictureBox_Eraser_MouseLeave(object sender, EventArgs e)
+        {
+            pictureBox_Eraser.BorderStyle = BorderStyle.None;
+        }
+
+        private void pictureBox_Picker_MouseHover(object sender, EventArgs e)
+        {
+            pictureBox_Picker.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void pictureBox_Picker_MouseLeave(object sender, EventArgs e)
+        {
+            pictureBox_Picker.BorderStyle = BorderStyle.None;
+        }
+
+        private void pictureBox_Magnifying_MouseHover(object sender, EventArgs e)
+        {
+            pictureBox_Magnifying.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void pictureBox_Magnifying_MouseLeave(object sender, EventArgs e)
+        {
+            pictureBox_Magnifying.BorderStyle = BorderStyle.None;
+        }
+
+        private void panel1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            Port = 0;
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            Port =1;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (Port == 0)
+                {
+                    if (PenToaDoX == -1)
+                    {
+                        PenToaDoX = Cursor.Position.X - 15;
+                        PenToaDoY = Cursor.Position.Y - 126;
+                    }
+                }
+                else
+                if (Port == 1)
+                {
+                    if (PenToaDoX == -1)
+                    {
+                        PenToaDoX = Cursor.Position.X - 15;
+                        PenToaDoY = Cursor.Position.Y - 126;
+                        label1.Text = PenToaDoX.ToString();
+                        label2.Text = PenToaDoY.ToString();
+                    }
+                }
+                isMove = true;
+            }
+        }
+
+        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isMove == true)
+            {
+                Pen p = new Pen(Color.Red);
+                Graphics g = panel1.CreateGraphics();
+                g.Clear(panel1.BackColor);
+                for (int i = 0; i < LinePointArray.Count; i++)
+                {
+                    int num1, num2, num3, num4;
+                    num1 = (int)LinePointArray[i];
+                    num2 = (int)LinePointArray[i + 1];
+                    num3 = (int)LinePointArray[i + 2];
+                    num4 = (int)LinePointArray[i + 3];
+
+                    g.DrawLine(p, new Point(num1, num2), new Point(num3, num4));
+                    i = i + 3;
+                }
+                
+                if (Port == 0)
+                {
+                    PenToaDoX2 = Cursor.Position.X - 15;
+                    PenToaDoY2 = Cursor.Position.Y - 126;
+                    g.DrawLine(p, new Point(PenToaDoX, PenToaDoY), new Point(PenToaDoX2, PenToaDoY2));
+                }
+                else 
+                if(Port==1)
+                {
+
+                    PenToaDoX2 = Cursor.Position.X - 15;
+                    PenToaDoY2 = Cursor.Position.Y - 126;
+                    label3.Text = PenToaDoX2.ToString();
+                    label4.Text = PenToaDoY2.ToString();
+                    if (PenToaDoX2>PenToaDoX && PenToaDoY2>PenToaDoY)
+                    {
+                        g.DrawArc(p, PenToaDoX2, PenToaDoY2, PenToaDoX2 - PenToaDoX, PenToaDoY2 - PenToaDoY, 0, 360);
+                    }
+                    else
+                    if(PenToaDoX2<PenToaDoX && PenToaDoY2>PenToaDoY)
+                    {
+                        g.DrawArc(p, PenToaDoX2, PenToaDoY2, -(PenToaDoX2 - PenToaDoX), PenToaDoY2 - PenToaDoY, 0, 360);
+                    }
+                    else
+                    if(PenToaDoX2<PenToaDoX && PenToaDoY2<PenToaDoY)
+                    {
+                        g.DrawArc(p, PenToaDoX2, PenToaDoY2, -(PenToaDoX2 - PenToaDoX), -(PenToaDoY2 - PenToaDoY), 0, 360);
+                    }
+                    else
+                    if(PenToaDoX2>PenToaDoX && PenToaDoY2<PenToaDoY)
+                    {
+                        g.DrawArc(p, PenToaDoX2, PenToaDoY2, PenToaDoX2 - PenToaDoX, -(PenToaDoY2 - PenToaDoY), 0, 360);
+                    }    
+
+
+                }
+                p.Dispose();
+                g.Dispose();
+            }
+        }
+
+        private void panel1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if(Port==0)
+            {
+                LinePointArray.Add(PenToaDoX2); LinePointArray.Add(PenToaDoY2);
+                LinePointArray.Add(PenToaDoX); LinePointArray.Add(PenToaDoY);
+                PenToaDoX = -1; PenToaDoY = -1;
+            }
+            
+            isMove = false;
+            
+        }
+
+       
+
+
+    }
+}
